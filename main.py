@@ -231,5 +231,12 @@ class CentralHub:
         print("Device not found.")
         return None
     
-
+# Display Menu
+def display_menu():
+    print("Smart Home Automation System Menu:")
+    print("1. Turn on all devices")
+    print("2. Turn off all devices")
+    print("3. Show status of all devices")
+    print("4. Interact with a specific device")
+    print("5. Exit")
     
