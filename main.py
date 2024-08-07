@@ -240,3 +240,44 @@ def display_menu():
     print("4. Interact with a specific device")
     print("5. Exit")
     
+# Main function
+def main():
+    hub = CentralHub()
+
+    # Creating devices
+    light = Light()
+    climate = ClimateControl()
+    security = SecuritySystem()
+
+    # Adding devices to the hub
+    hub.add_device(light)
+    hub.add_device(climate)
+    hub.add_device(security)
+
+    while True:
+        display_menu()
+        choice = input("Enter your choice: ")
+        if choice == '5':
+            print("Exiting the system.")
+            break
+        try:
+            choice = int(choice)
+            if choice == 1:
+                hub.turn_on_all_devices()
+            elif choice == 2:
+                hub.turn_off_all_devices()
+            elif choice == 3:
+                hub.show_status()
+            elif choice == 4:
+                device_name = input("Enter the device name (Light, Climate Control, Security System): ")
+                device = hub.interact_with_device(device_name)
+                if device:
+                    # Additional interaction based on device type could be implemented here
+                    pass
+            else:
+                print("Invalid choice. Please try again.")
+        except ValueError:
+            print("Invalid choice. Please enter a number.")
+
+if __name__ == "__main__":
+    main()
