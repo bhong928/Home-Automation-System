@@ -122,7 +122,114 @@ class ClimateControl(Device):
         return "Climate Control"
         
 
+# Security System
+class SecuritySystem(Device):
+    def __init__(self):
+        self.is_armed = False
+        self.alarm_on = False
+        self.motion_detected = False
+        self.camera_active = False
+        self.motion_sensitivity = 5
+        self.logs = []
 
+    def turn_on(self):
+        self.is_armed = True
+        self.camera_active = True
+        self.add_log("Security system armed and cameras activated.")
+        print("Security system armed and cameras activated.")
+
+    def turn_off(self):
+        self.is_armed = False
+        self.alarm_on = False
+        self.camera_active = False
+        self.add_log("Security system disarmed and cameras deactivated.")
+        print("Security system disarmed and cameras deactivated.")
+
+    def trigger_alarm(self):
+        if self.is_armed:
+            self.alarm_on = True
+            self.add_log("Alarm triggered!")
+            print("Alarm triggered!")
+
+    def detect_motion(self):
+        if self.is_armed:
+            self.motion_detected = True
+            self.trigger_alarm()
+            self.add_log("Motion detected!")
+            print("Motion detected!")
+
+    def reset_alarm(self):
+        self.alarm_on = False
+        self.motion_detected = False
+        self.add_log("Alarm reset.")
+        print("Alarm reset.")
+
+    def start_camera_recording(self):
+        if self.camera_active:
+            self.add_log("Camera recording started.")
+            print("Camera recording started.")
+
+    def stop_camera_recording(self):
+        if self.camera_active:
+            self.add_log("Camera recording stopped.")
+            print("Camera recording stopped.")
+
+    def set_motion_sensitivity(self, level):
+        if not 1 <= level <= 10:
+            print("Motion sensitivity must be between 1 and 10.")
+            return
+        self.motion_sensitivity = level
+        self.add_log(f"Motion sensitivity set to {level}")
+        print(f"Motion sensitivity set to {level}")
+
+    def show_logs(self):
+        print("Security System Logs:")
+        for log in self.logs:
+            print(log)
+
+    def get_status(self):
+        if self.is_armed:
+            if self.alarm_on:
+                return "Security system is armed, alarm is triggered!"
+            if self.motion_detected:
+                return "Security system is armed, motion detected!"
+            return "Security system is armed, all is secure."
+        return "Security system is disarmed"
+
+    def get_name(self):
+        return "Security System"
+
+    def add_log(self, event):
+        dt = time.ctime()
+        self.logs.append(f"{dt}: {event}")
+
+# Central Hub
+class CentralHub:
+    def __init__(self):
+        self.devices = []
+
+    def add_device(self, device):
+        self.devices.append(device)
+
+    def turn_on_all_devices(self):
+        for device in self.devices:
+            device.turn_on()
+
+    def turn_off_all_devices(self):
+        for device in self.devices:
+            device.turn_off()
+
+    def show_status(self):
+        for device in self.devices:
+            print(f"{device.get_name()}: {device.get_status()}")
+
+    def interact_with_device(self, device_name):
+        for device in self.devices:
+            if device.get_name() == device_name:
+                print(f"Interacting with {device_name}.")
+                return device
+        print("Device not found.")
+        return None
     
 
     
