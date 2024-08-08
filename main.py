@@ -303,23 +303,30 @@ def handle_climate_interaction(climate):
     elif option == '3':
         try:
             temperature = int(input("Enter temperature (10-30°C): "))
+            print_separator()
             climate.set_temperature(temperature)
         except ValueError:
             print("Please enter a valid integer for temperature.")
+            print_separator()
     elif option == '4':
         try:
             humidity = int(input("Enter humidity (0-100%): "))
+            print_separator()
             climate.set_humidity(humidity)
         except ValueError:
             print("Please enter a valid integer for humidity.")
+            print_separator()
     elif option == '5':
         try:
             speed = int(input("Enter fan speed (0-3): "))
+            print_separator()
             climate.set_fan_speed(speed)
         except ValueError:
             print("Please enter a valid integer for fan speed.")
+            print_separator()
     elif option == '6':
         mode = input("Enter mode (Cooling or Heating): ")
+        print_separator()
         climate.set_mode(mode)
     elif option == '7':
         return
@@ -354,9 +361,11 @@ def handle_security_interaction(security):
     elif option == '5':
         try:
             sensitivity = int(input("Enter motion sensitivity (1-10): "))
+            print_separator()
             security.set_motion_sensitivity(sensitivity)
         except ValueError:
             print("Please enter a valid integer for sensitivity.")
+            print_separator()
     elif option == '6':
         security.show_logs()
     elif option == '7':
