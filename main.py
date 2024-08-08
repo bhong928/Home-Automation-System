@@ -232,63 +232,144 @@ class CentralHub:
         print("Device not found.")
         return None
 
-def print_seperator():
+def print_separator():
     print("-" * 50)
     
 # Display Menu
 def display_menu():
-    print_seperator()
+    print_separator()
     print("Smart Home Automation System Menu:")
     print("1. Turn on all devices")
     print("2. Turn off all devices")
     print("3. Show status of all devices")
-    print("4. Interact with a specific device")
-    print("5. Exit")
-    print_seperator()
+    print("4. Interact with Light")
+    print("5. Interact with Climate Control")
+    print("6. Interact with Security System")
+    print("7. Exit")
+    print_separator()
 
-#Light interaction Menu
-def light_interaction_menu(light):
-    while True:
-        print_seperator()
-        print("Options for Light:")
-        print("1. Turn on")
-        print("2. Turn off")
-        print("3. Set Brightness")
-        print("4. Set Color")
-        print("5. Return to Main Menu")
-        light_choice = input("Choose an option: ")
-        print_seperator()
-        if light_choice == '1':
-            light.turn_on()
-            print("Light turned on.")
-        elif light_choice == '2':
-            light.turn_off()
-            print("Light turned off.")
-        elif light_choice == '3':
-            try:
-                brightness_level = int(input("Enter brightness level (0-100): "))
-                print_seperator()
-                light.set_brightness(brightness_level)
-            except ValueError:
-                print("Please enter a valid integer for brightness.")
-        elif light_choice == '4':
-            light_color = input("Enter color of light: ")
-            print_seperator()
-            light.set_color(light_color)
-        elif light_choice == '5':
-            break
-        else:
-            print("Invalid option.")
-        print_seperator()
-        print("Current Status of Light:")
-        print(light.get_status())
+# Light interaction
+def handle_light_interaction(light):
+    print("Options for Light:")
+    print("1. Turn on")
+    print("2. Turn off")
+    print("3. Set Brightness")
+    print("4. Set Color")
+    print("5. Return to Main Menu")
+    option = input("Choose an option: ")
+    print_separator()
+    
+    if option == '1':
+        light.turn_on()
+    elif option == '2':
+        light.turn_off()
+    elif option == '3':
+        try:
+            brightness = int(input("Enter brightness (0-100): "))
+            print_separator()
+            light.set_brightness(brightness)
+        except ValueError:
+            print("Please enter a valid integer for brightness.")
+            print_separator()
+    elif option == '4':
+        color = input("Enter color name: ")
+        print_separator()
+        light.set_color(color)
+    elif option == '5':
+        return
+    else:
+        print("Invalid option.")
+    
+    print("Current Status of Light:")
+    print(light.get_status())
+    print_separator()
+
+# Climate interaction
+def handle_climate_interaction(climate):
+    print("Options for Climate Control:")
+    print("1. Turn on")
+    print("2. Turn off")
+    print("3. Set Temperature")
+    print("4. Set Humidity")
+    print("5. Set Fan Speed")
+    print("6. Set Mode")
+    print("7. Return to Main Menu")
+    option = input("Choose an option: ")
+
+    if option == '1':
+        climate.turn_on()
+    elif option == '2':
+        climate.turn_off()
+    elif option == '3':
+        try:
+            temperature = int(input("Enter temperature (10-30°C): "))
+            climate.set_temperature(temperature)
+        except ValueError:
+            print("Please enter a valid integer for temperature.")
+    elif option == '4':
+        try:
+            humidity = int(input("Enter humidity (0-100%): "))
+            climate.set_humidity(humidity)
+        except ValueError:
+            print("Please enter a valid integer for humidity.")
+    elif option == '5':
+        try:
+            speed = int(input("Enter fan speed (0-3): "))
+            climate.set_fan_speed(speed)
+        except ValueError:
+            print("Please enter a valid integer for fan speed.")
+    elif option == '6':
+        mode = input("Enter mode (Cooling or Heating): ")
+        climate.set_mode(mode)
+    elif option == '7':
+        return
+    else:
+        print("Invalid option.")
+
+    print("Current Status of Climate Control:")
+    print(climate.get_status())
+    print_separator()
 
     
-# Main function
+# Security interaction 
+def handle_security_interaction(security):
+    print("Options for Security System:")
+    print("1. Arm System")
+    print("2. Disarm System")
+    print("3. Trigger Alarm")
+    print("4. Detect Motion")
+    print("5. Set Motion Sensitivity")
+    print("6. Show Logs")
+    print("7. Return to Main Menu")
+    option = input("Choose an option: ")
+
+    if option == '1':
+        security.turn_on()
+    elif option == '2':
+        security.turn_off()
+    elif option == '3':
+        security.trigger_alarm()
+    elif option == '4':
+        security.detect_motion()
+    elif option == '5':
+        try:
+            sensitivity = int(input("Enter motion sensitivity (1-10): "))
+            security.set_motion_sensitivity(sensitivity)
+        except ValueError:
+            print("Please enter a valid integer for sensitivity.")
+    elif option == '6':
+        security.show_logs()
+    elif option == '7':
+        return
+    else:
+        print("Invalid option.")
+
+    print("Current Status of Security System:")
+    print(security.get_status())
+    print_separator()
+
 def main():
     hub = CentralHub()
-
-    # Creating devices
     light = Light()
     climate = ClimateControl()
     security = SecuritySystem()
@@ -301,8 +382,8 @@ def main():
     while True:
         display_menu()
         choice = input("Enter your choice: ")
-        print_seperator()
-        if choice == '5':
+        print_separator()
+        if choice == '7':
             print("Exiting the system.")
             break
         try:
@@ -314,15 +395,11 @@ def main():
             elif choice == 3:
                 hub.show_status()
             elif choice == 4:
-                device_name = input("Enter the device name (Light, Climate Control, Security System): ")
-                device = hub.interact_with_device(device_name)
-                if device:
-                    # Light Options
-                    if isinstance(device, Light):
-                        light_interaction_menu(device)
-                    else:
-                        print(f"{device.get_name()} does not support these options.")
-                    hub.show_status()
+                handle_light_interaction(light)
+            elif choice == 5:
+                handle_climate_interaction(climate)
+            elif choice == 6:
+                handle_security_interaction(security)
             else:
                 print("Invalid choice. Please try again.")
         except ValueError:
