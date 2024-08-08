@@ -232,22 +232,10 @@ class CentralHub:
         print("Device not found.")
         return None
 
+# Separator to Clean up Terminal
 def print_separator():
     print("-" * 50)
     
-# Display Menu
-def display_menu():
-    print_separator()
-    print("Smart Home Automation System Menu:")
-    print("1. Turn on all devices")
-    print("2. Turn off all devices")
-    print("3. Show status of all devices")
-    print("4. Interact with Light")
-    print("5. Interact with Climate Control")
-    print("6. Interact with Security System")
-    print("7. Exit")
-    print_separator()
-
 # Light interaction
 def handle_light_interaction(light):
     print("Options for Light:")
@@ -337,7 +325,6 @@ def handle_climate_interaction(climate):
     print(climate.get_status())
     print_separator()
 
-    
 # Security interaction 
 def handle_security_interaction(security):
     print("Options for Security System:")
@@ -349,6 +336,7 @@ def handle_security_interaction(security):
     print("6. Show Logs")
     print("7. Return to Main Menu")
     option = input("Choose an option: ")
+    print_separator()
 
     if option == '1':
         security.turn_on()
@@ -377,6 +365,20 @@ def handle_security_interaction(security):
     print(security.get_status())
     print_separator()
 
+# Display Menu
+def display_menu():
+    print_separator()
+    print("Smart Home Automation System Menu:")
+    print("1. Turn on all devices")
+    print("2. Turn off all devices")
+    print("3. Show status of all devices")
+    print("4. Interact with Light")
+    print("5. Interact with Climate Control")
+    print("6. Interact with Security System")
+    print("7. Exit")
+    print_separator()
+
+# Main function
 def main():
     hub = CentralHub()
     light = Light()
