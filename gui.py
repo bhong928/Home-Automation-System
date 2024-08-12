@@ -16,32 +16,37 @@ class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        self.pack()
+        self.pack(expand=True, fill='both')  # Expand the frame to fill the root window
         self.create_widgets()
 
     def create_widgets(self):
+        # Frame to hold the buttons centrally
+        self.button_frame = tk.Frame(self)
+        self.button_frame.pack(expand=True)  # Center the frame within the Application frame
+        
         # Light controls
-        self.light_btn = tk.Button(self, text="Toggle Light", command=self.toggle_light)
-        self.light_btn.pack(side="top")
+        self.light_btn = tk.Button(self.button_frame, text="Toggle Light", command=self.toggle_light_on)
+        self.light_btn.pack(side="top", expand=True, fill='both')  # Center button in button_frame
 
         # Climate controls
-        self.climate_btn = tk.Button(self, text="Toggle Climate Control", command=self.toggle_climate)
-        self.climate_btn.pack(side="top")
+        self.climate_btn = tk.Button(self.button_frame, text="Toggle Climate Control", command=self.toggle_climate)
+        self.climate_btn.pack(side="top", expand=True, fill='both')
 
         # Security controls
-        self.security_btn = tk.Button(self, text="Toggle Security System", command=self.toggle_security)
-        self.security_btn.pack(side="top")
+        self.security_btn = tk.Button(self.button_frame, text="Toggle Security System", command=self.toggle_security)
+        self.security_btn.pack(side="top", expand=True, fill='both')
 
         # Exit button
-        self.quit = tk.Button(self, text="QUIT", fg="red", command=self.master.destroy)
-        self.quit.pack(side="bottom")
+        self.quit = tk.Button(self.button_frame, text="QUIT", fg="red", command=self.master.destroy)
+        self.quit.pack(side="bottom", expand=True, fill='both')
 
-    def toggle_light(self):
+    def toggle_light_on(self):
         if light.is_on:
             light.turn_off()
         else:
             light.turn_on()
         print(light.get_status())
+
 
     def toggle_climate(self):
         if climate.is_on:
@@ -58,6 +63,7 @@ class Application(tk.Frame):
         print(security.get_status())
 
 root = tk.Tk()
+root.geometry("500x500")
 app = Application(master=root)
 app.master.title("Home Automation System")
 app.mainloop()
