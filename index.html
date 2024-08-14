@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Automation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .device {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+        .device button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Smart Home Automation System</h1>
+    
+    <div class="device" id="light">
+        <h2>Light</h2>
+        <p>Status: <span id="light-status">Off</span></p>
+        <button onclick="toggleLight()">Turn On/Off</button>
+        <button onclick="setBrightness()">Set Brightness</button>
+        <button onclick="setColor()">Set Color</button>
+    </div>
+
+    <div class="device" id="climate">
+        <h2>Climate Control</h2>
+        <p>Status: <span id="climate-status">Off</span></p>
+        <button onclick="toggleClimate()">Turn On/Off</button>
+        <button onclick="setTemperature()">Set Temperature</button>
+        <button onclick="setHumidity()">Set Humidity</button>
+        <button onclick="setFanSpeed()">Set Fan Speed</button>
+        <button onclick="setMode()">Set Mode</button>
+    </div>
+
+    <div class="device" id="security">
+        <h2>Security System</h2>
+        <p>Status: <span id="security-status">Disarmed</span></p>
+        <button onclick="toggleSecurity()">Arm/Disarm</button>
+        <button onclick="triggerAlarm()">Trigger Alarm</button>
+        <button onclick="resetAlarm()">Reset Alarm</button>
+        <button onclick="showLogs()">Show Logs</button>
+    </div>
+
+    <script>
+        // Light control
+        let lightOn = false;
+        function toggleLight() {
+            lightOn = !lightOn;
+            document.getElementById('light-status').innerText = lightOn ? 'On' : 'Off';
+        }
+
+        function setBrightness() {
+            let brightness = prompt("Set brightness (0-100):", "100");
+            if (brightness >= 0 && brightness <= 100) {
+                alert(`Brightness set to ${brightness}%`);
+            } else {
+                alert("Invalid brightness level.");
+            }
+        }
+
+        function setColor() {
+            let color = prompt("Set color:", "white");
+            alert(`Color set to ${color}`);
+        }
+
+        // Climate control
+        let climateOn = false;
+        function toggleClimate() {
+            climateOn = !climateOn;
+            document.getElementById('climate-status').innerText = climateOn ? 'On' : 'Off';
+        }
+
+        function setTemperature() {
+            let temp = prompt("Set temperature (10-30°C):", "22");
+            if (temp >= 10 && temp <= 30) {
+                alert(`Temperature set to ${temp}°C`);
+            } else {
+                alert("Invalid temperature.");
+            }
+        }
+
+        function setHumidity() {
+            let humidity = prompt("Set humidity (0-100%):", "50");
+            if (humidity >= 0 && humidity <= 100) {
+                alert(`Humidity set to ${humidity}%`);
+            } else {
+                alert("Invalid humidity level.");
+            }
+        }
+
+        function setFanSpeed() {
+            let speed = prompt("Set fan speed (0-3):", "0");
+            let speedNames = ["Off", "Low", "Medium", "High"];
+            if (speed >= 0 && speed <= 3) {
+                alert(`Fan speed set to ${speedNames[speed]}`);
+            } else {
+                alert("Invalid fan speed.");
+            }
+        }
+
+        function setMode() {
+            let mode = prompt("Set mode (Cooling/Heating):", "Cooling");
+            if (mode === "Cooling" || mode === "Heating") {
+                alert(`Mode set to ${mode}`);
+            } else {
+                alert("Invalid mode.");
+            }
+        }
+
+        // Security system
+        let securityArmed = false;
+        let logs = [];
+        function toggleSecurity() {
+            securityArmed = !securityArmed;
+            document.getElementById('security-status').innerText = securityArmed ? 'Armed' : 'Disarmed';
+            addLog(securityArmed ? "Security system armed" : "Security system disarmed");
+        }
+
+        function triggerAlarm() {
+            if (securityArmed) {
+                alert("Alarm triggered!");
+                addLog("Alarm triggered!");
+            } else {
+                alert("Security system is not armed.");
+            }
+        }
+
+        function resetAlarm() {
+            alert("Alarm reset.");
+            addLog("Alarm reset.");
+        }
+
+        function showLogs() {
+            alert("Security System Logs:\n" + logs.join("\n"));
+        }
+
+        function addLog(event) {
+            let dt = new Date().toLocaleString();
+            logs.push(`${dt}: ${event}`);
+        }
+    </script>
+</body>
+</html>
